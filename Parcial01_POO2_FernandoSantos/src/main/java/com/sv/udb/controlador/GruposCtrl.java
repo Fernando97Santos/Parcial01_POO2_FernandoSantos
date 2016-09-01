@@ -6,17 +6,40 @@
 package com.sv.udb.controlador;
 
 import com.sv.udb.modelo.Grupos;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.TypedQuery;
 
 /**
  *
  * @author ferna
  */
 public class GruposCtrl {
-    public Grupos get(Long empId){
-        
+    public List<Grupos> consTodo()
+    {
+        List<Grupos> resp = new ArrayList<>();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("PooPoolPU");
+        EntityManager em = emf.createEntityManager();
+        try
+        {
+          TypedQuery<Grupos> query =em.createNamedQuery("Grupos.findAll", Grupos.class);
+           resp = query.getResultList();
+        }
+        catch(Exception ex)
+        {
+            
+        }
+        em.close();
+        emf.close();
+        return resp;
+       
+    }
+     
+    public Grupos get(int empId)
+    {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("PooPoolPU");
         EntityManager em = emf.createEntityManager();
         Grupos resp = null;
@@ -26,7 +49,9 @@ public class GruposCtrl {
             
         }catch(Exception e){
             e.printStackTrace();
-        }                
+        }
+        em.close();
+        emf.close();
         return resp;
     }
 }

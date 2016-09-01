@@ -87,7 +87,7 @@ public class AlumnosCtrl {
         return resp;
     }
     
-    public List<Alumnos>  ConsTodo()
+    public List<Alumnos> consTodo()
     {
         List<Alumnos> resp = new ArrayList<>();
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("PooPoolPU");
@@ -101,12 +101,14 @@ public class AlumnosCtrl {
         {
             
         }
+        em.close();
+        emf.close();
         return resp;
        
     }
-
-    public Alumnos get(Long empId){
-        
+     
+    public Alumnos get(int empId)
+    {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("PooPoolPU");
         EntityManager em = emf.createEntityManager();
         Alumnos resp = null;
@@ -116,8 +118,11 @@ public class AlumnosCtrl {
             
         }catch(Exception e){
             e.printStackTrace();
-        }                
+        }
+        em.close();
+        emf.close();
         return resp;
     }
+
 
 }

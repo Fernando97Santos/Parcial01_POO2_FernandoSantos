@@ -6,14 +6,13 @@
 package com.sv.udb.vista;
 
 import com.sv.udb.controlador.AlumGrupCtrl;
-import com.sv.udb.controlador.GruposCtrl;
 import com.sv.udb.controlador.AlumnosCtrl;
-import com.sv.udb.modelo.GruposAlumnos;
+import com.sv.udb.controlador.GruposCtrl;
 import com.sv.udb.modelo.Alumnos;
 import com.sv.udb.modelo.Grupos;
+import com.sv.udb.modelo.GruposAlumnos;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -38,6 +37,7 @@ public class GrupAlumServ extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
         boolean esValido = request.getMethod().equals("POST");
         if(esValido)
         {
@@ -45,19 +45,24 @@ public class GrupAlumServ extends HttpServlet {
             String CRUD = request.getParameter("cursBton");
             if(CRUD.equals("Guardar"))
             {
+                Alumnos obje1 = new AlumnosCtrl().get(Integer.parseInt(request.getParameter("cmbAlum")));
+                Grupos obje2 = new GruposCtrl().get(Integer.parseInt(request.getParameter("cmbGrup")));
                 GruposAlumnos obje = new GruposAlumnos();
-                Alumnos alum = new AlumnosCtrl().get(Long.parseLong(request.getParameter("cmbAlum")));
-                obje.setCodiAlum(alum);
-                Grupos grup = new GruposCtrl().get(Long.parseLong(request.getParameter("cmbGrup")));
-                obje.setCodiGrup(grup);
+                obje.setEstaGrupAlum('1');
+                obje.setCodiGrup(obje2);
+                obje.setCodiAlum(obje1);
                 mens = new AlumGrupCtrl().guar(obje) ? "Datos guardados exitosamente" : "Datos NO guardados";
             }
-            request.setAttribute("mensAler", mens);
-            request.getRequestDispatcher("GrupoAlumno.jsp").forward(request, response);
+            else if(CRUD.equals("Consultar"))
+            {
+                int codiGrup = Integer.parseInt(request.getParameter("grup"));
+                    request.setAttribute("Grupo", codiGrup);
+            }
+        request.setAttribute("mensAler", mens);
+        request.getRequestDispatcher("GrupoAlumno.jsp").forward(request, response);
         }
-        else
-        {
-            response.sendRedirect(request.getContextPath() + "GrupoAlumno.jsp");
+        else{
+            response.sendRedirect(request.getContextPath() + "/GrupoAlumno.jsp");
         }
     }
 

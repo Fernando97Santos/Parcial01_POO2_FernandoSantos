@@ -87,20 +87,26 @@ public class AlumGrupCtrl {
         return resp;
     }
     
-    public List<GruposAlumnos>  ConsTodo()
+    public List<GruposAlumnos> ConsTodo(Object Codi)
     {
+        if(Codi == null){
+            Codi = 1;
+        }
         List<GruposAlumnos> resp = new ArrayList<>();
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("PooPoolPU");
         EntityManager em = emf.createEntityManager();
         try
         {
-          TypedQuery<GruposAlumnos> query =em.createNamedQuery("GruposAlumnos.findAll", GruposAlumnos.class);
+            TypedQuery<GruposAlumnos> query =em.createNamedQuery("GruposAlumnos.findByCodiGrup", GruposAlumnos.class);
+            query.setParameter("codiGrup",Codi);
            resp = query.getResultList();
         }
         catch(Exception ex)
         {
             
         }
+        em.close();
+        emf.close();
         return resp;
        
     }

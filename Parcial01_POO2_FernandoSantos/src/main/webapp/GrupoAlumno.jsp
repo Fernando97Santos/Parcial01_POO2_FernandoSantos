@@ -5,9 +5,16 @@
 --%>
 
 <%@page import="com.sv.udb.controlador.AlumGrupCtrl"%>
-<%@page import="com.sv.udb.controlador.AlumnosCtrl"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@page import="com.sv.udb.controlador.GruposCtrl"%>
+<%@page import="com.sv.udb.controlador.AlumnosCtrl"%>
 <%@ taglib uri="http://displaytag.sf.net/el" prefix="display" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -30,7 +37,7 @@
                         <li class="current_page_item"><a href="index.jsp" accesskey="1" title="">Homepage</a></li>
                         <li><a href="Alumnos.jsp" accesskey="1" title="">Alumnos</a></li>
                         <li><a href="GrupoAlumno.jsp" accesskey="1" title="">Grupos-Alumnos</a></li>
-                        <li><a href="Consulta.jsp" accesskey="1" title="">Consulta</a></li>
+                        <li><a href="Reporte.jsp" accesskey="1" title="">Consulta de reporte</a></li>
                     </ul>
                 </div>
                 <div id="logo">
@@ -53,13 +60,29 @@
                                 <label>Alumno:</label>
                                 <select name="cmbAlum">
                                     <jsp:useBean id="beanAlumnosCtrl" class="com.sv.udb.controlador.AlumnosCtrl" scope="page"/>
-                                    <c:forEach items="${beanAlumnosCtrl.ConsTodo()}" var="fila">
+                                    <c:forEach items="${beanAlumnosCtrl.consTodo()}" var="fila">
                                         <c:choose>
                                             <c:when test="${fila.codiAlum eq cmbAlum}">
-                                                <option name="codiAlum" id="codiAlum" selected="" value="${fila.codiAlum}">${fila.nombAlum}</option>
+                                                <option selected="" value="${fila.codiAlum}">${fila.nombAlum}</option>
                                             </c:when>
                                             <c:otherwise>
-                                                <option name="codiAlum" id="codiAlum"  value="${fila.codiAlum}">${fila.nombAlum}</option>
+                                                <option value="${fila.codiAlum}">${fila.nombAlum}</option>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                            <div class="text" >
+                                <label>Grupo:</label>
+                                <select name="cmbGrup">
+                                    <jsp:useBean id="beanGruposCtrl" class="com.sv.udb.controlador.GruposCtrl" scope="page"/>
+                                    <c:forEach items="${beanGruposCtrl.consTodo()}" var="fila">
+                                        <c:choose>
+                                            <c:when test="${fila.codiGrup eq cmbGrup}">
+                                                <option selected="" value="${fila.codiAlum}">${fila.nombGrup}</option>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <option value="${fila.codiGrup}">${fila.nombGrup}</option>
                                             </c:otherwise>
                                         </c:choose>
                                     </c:forEach>
@@ -74,7 +97,7 @@
                             <input type="submit" class="button-small" id="boton" name="cursBton" value="Modificar"/>
                             </div>
                             <div class="column2">
-                            <input type="submit" class="button-small" id="boton" name="cursBton" value="Eliminar" onclick="return confirm('¿Estas seguro que deseas eliminar este registro?');"/>
+                            <input type="submit" class="button-small" id="boton" name="cursBton" value="Eliminar" onclick="return confirm('Â¿Estas seguro que deseas eliminar este registro?');"/>
                             </div>
                         </div>
                     </form>
@@ -87,26 +110,38 @@
         <br/>
         <br/>
         <div class="title">
-            <h2>Consulta de Lugar</h2>
+            <h2>Consulta de Grupo-Alumno</h2>
         </div>
         <form method="POST" name="Frm" action="GrupAlumServ">
-            <% request.setAttribute("demoAttr", new AlumGrupCtrl().ConsTodo());%>
-            <div  class="tbl-content">
-                <display:table id="Lugar" name="demoAttr" class="bordered highlight centered">
-                    <display:column property="nombLugaAcce" title="Nombre"sortable="true"/>
-                    <display:column property="fechAlta" title="Fecha Alta" sortable="true"/>
-                    <display:column property="fechBaja" title="Fecha Baja" sortable="true"/>
-                    <display:column title="Codigo" sortable="true">
-                        <input type="radio" name="codiAlum" id="${Lugar.codiAlum}" value="${Lugar.codiAlum}"/><label for="${Lugar.codiAlum}"></label>
-                    </display:column>
-                </display:table>
-            </div>   
-            <br/>
-            <div class="row">
-                <input type="submit" class="button submit" name="cursBton" value="Consultar"/>
+            <div class="form-group">
+                <label>Grupo</label>
+                <select name="grup" class="form-control">
+                    <jsp:useBean id="grupo1" class="com.sv.udb.controlador.GruposCtrl" scope="page"/>
+                    <c:forEach items="${grupo1.consTodo()}" var="fila">
+                        <c:choose>
+                            <c:when test="${fila.codiGrup eq Grupo}">
+                                <option value="${fila.codiGrup}" selected="">${fila.nombGrup}</option>
+                            </c:when>
+                            <c:otherwise>
+                                <option value="${fila.codiGrup}">${fila.nombGrup}</option>
+                            </c:otherwise>
+                        </c:choose>
+                    </c:forEach>
+                </select>
             </div>
-            <br/>
+            <input type="submit" name="cursBton" value="Consultar" class="button-small"/>
         </form>
+        <form method="POST" name="Frm" action="GrupAlumServ">
+                    <% Object Codi = request.getAttribute("Grupo");
+                    
+                    %>
+                    <% request.setAttribute( "demoAttr", new AlumGrupCtrl().ConsTodo(Codi)); %>
+                <display:table id="Persona" name="demoAttr" class="table table-hover">
+                    <display:column property="codiAlum.nombAlum" title="Alumno" sortable="true"/>
+                    <display:column property="codiAlum.apelAlum" title="Apellido" sortable="true"/>
+                    <display:column property="codiGrup.nombGrup" title="Grupo" sortable="true"/>
+                </display:table>
+                </form>
 
 
         <div id="copyright">

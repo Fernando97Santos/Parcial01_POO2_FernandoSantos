@@ -27,13 +27,13 @@
                 <div id="menu">
                     <ul>
                         <li class="current_page_item"><a href="index.jsp" accesskey="1" title="">Homepage</a></li>
-                        <li><a href="Lugar.jsp" accesskey="1" title="">Lugar Acceso</a></li>
-                        <li><a href="TipoDocu.jsp" accesskey="1" title="">Tipo Documento</a></li>
-                        <li><a href="TipoGafe.jsp" accesskey="1" title="">Tipo Gafete</a></li>
+                        <li><a href="Alumnos.jsp" accesskey="1" title="">Alumnos</a></li>
+                        <li><a href="GrupoAlumno.jsp" accesskey="1" title="">Grupos-Alumnos</a></li>
+                        <li><a href="Reporte.jsp" accesskey="1" title="">Consulta de reporte</a></li>
                     </ul>
                 </div>
                 <div id="logo">
-                    <h1><a href="#">Guia 3 POO2</a></h1>
+                    <h1><a href="#">Parcial 1 POO2</a></h1>
                     <span>Fernando Santos </span> </div>
             </div>
         </div>

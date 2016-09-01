@@ -29,7 +29,7 @@
                         <li class="current_page_item"><a href="index.jsp" accesskey="1" title="">Homepage</a></li>
                         <li><a href="Alumnos.jsp" accesskey="1" title="">Alumnos</a></li>
                         <li><a href="GrupoAlumno.jsp" accesskey="1" title="">Grupos-Alumnos</a></li>
-                        <li><a href="Consulta.jsp" accesskey="1" title="">Consulta</a></li>
+                        <li><a href="Reporte.jsp" accesskey="1" title="">Consulta de reporte</a></li>
                     </ul>
                 </div>
                 <div id="logo">
@@ -92,7 +92,32 @@
             </div>
         </div>
                             
-        
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <div class="title">
+            <h2>Consulta de Alumnos</h2>
+        </div>
+        <form method="POST" name="Frm" action="GrupAlumServ">
+            <% request.setAttribute("demoAttr", new AlumnosCtrl().consTodo());%>
+            <div  class="tbl-content">
+                <display:table id="Lugar" name="demoAttr" class="bordered highlight centered">
+                    <display:column property="nombAlum" title="Nombres" sortable="true"/>
+                    <display:column property="apelAlum" title="Apellidos" sortable="true"/>
+                    <display:column property="fechNaciAlum" title="Fecha" sortable="true"/>
+                    <display:column property="mailAlum" title="Correo" sortable="true"/>
+                    <display:column property="teleAlum" title="Telefono" sortable="true"/>
+                    <display:column property="direAlum" title="Direccion" sortable="true"/>
+                    <display:column property="geneAlum" title="Genero" sortable="true"/>
+                </display:table>
+            </div>   
+            <br/>
+            <div class="row">
+                <input type="submit" class="button submit" name="cursBton" value="Consultar"/>
+            </div>
+            <br/>
+        </form>
 
 
         <div id="copyright">
